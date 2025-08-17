@@ -1,0 +1,23 @@
+name: new_notq_app
+description: Flutter conversion of Kids Learning & Speech Therapy App (React/TS) with matched UI.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+  google_sign_in: ^6.2.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets\images\NUTQ App Logo  (1).png
+    - assets/images/google_icon.png
