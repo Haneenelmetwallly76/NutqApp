@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'user_provider.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends ConsumerStatefulWidget {
   final VoidCallback onGetStarted;
   const WelcomeScreen({super.key, required this.onGetStarted});
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
+  ConsumerState<WelcomeScreen> createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen>
+class _WelcomeScreenState extends ConsumerState<WelcomeScreen>
     with TickerProviderStateMixin {
   late final AnimationController _starCtr;
   late final AnimationController _heartCtr;
@@ -18,6 +20,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   bool _signingIn = false;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String? _selectedRole;
 
   @override
   void initState() {
@@ -38,6 +43,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void dispose() {
     _starCtr.dispose();
     _heartCtr.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -62,21 +69,20 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   void _showRoleDialog() {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)),
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: const Text(
-          "Choose your role",
+          "Choose your role for Sign Up",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _buildRoleButton("Child 👶"),
+            _buildRoleButton("Child"),
             const SizedBox(height: 10),
-            _buildRoleButton("Parent 👩‍👧"),
+            _buildRoleButton("Parent"),
             const SizedBox(height: 10),
-            _buildRoleButton("Doctor 🩺"),
+            _buildRoleButton("Doctor"),
           ],
         ),
       ),
@@ -89,23 +95,19 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       child: ElevatedButton(
         onPressed: () {
           Navigator.pop(context);
-          if (role.startsWith("Child")) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => const ChildInterestsScreen()),
-            );
+          String signUpRoute;
+          if (role == "Child") {
+            signUpRoute = '/sign_up_child';
+          } else if (role == "Parent") {
+            signUpRoute = '/sign_up_parent';
           } else {
-            widget.onGetStarted();
+            signUpRoute = '/sign_up_doctor';
           }
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Signed up as $role")),
-          );
+          Navigator.pushNamed(context, signUpRoute);
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 12),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           backgroundColor: const Color(0xFF6366F1),
         ),
         child: Text(role, style: const TextStyle(color: Colors.white)),
@@ -136,8 +138,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   animation: _starDy,
                   builder: (_, __) => Transform.translate(
                     offset: Offset(0, -_starDy.value),
-                    child: const Icon(Icons.star,
-                        color: Colors.amber, size: 26),
+                    child: const Icon(Icons.star, color: Colors.amber, size: 26),
                   ),
                 ),
               ),
@@ -148,17 +149,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   animation: _heartDy,
                   builder: (_, __) => Transform.translate(
                     offset: Offset(0, -_heartDy.value),
-                    child: const Icon(Icons.favorite,
-                        color: Colors.pinkAccent, size: 22),
+                    child: const Icon(Icons.favorite, color: Colors.pinkAccent, size: 22),
                   ),
                 ),
               ),
-
               Align(
                 alignment: Alignment.center,
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 24),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -176,74 +174,80 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         ),
                         padding: const EdgeInsets.all(20),
                         child: Image.asset(
-                          'assets/images/NUTQ App Logo  (1).png',
+                          'assets/images/nutq_app_logo.png',
                           width: 110,
                           height: 110,
                           fit: BoxFit.contain,
                         ),
                       ),
                       const SizedBox(height: 28),
-
                       Wrap(
                         alignment: WrapAlignment.center,
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           const Text(
                             'Welcome to ',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF111827)),
+                            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, color: Color(0xFF111827)),
                           ),
                           ShaderMask(
-                            shaderCallback: (bounds) =>
-                                const LinearGradient(
-                                  colors: [
-                                    Color(0xFF6366F1),
-                                    Color(0xFF9333EA)
-                                  ],
-                                ).createShader(bounds),
+                            shaderCallback: (bounds) => const LinearGradient(
+                              colors: [Color(0xFF6366F1), Color(0xFF9333EA)],
+                            ).createShader(bounds),
                             child: const Text(
-                              'NOUTQ!',
-                              style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white),
+                              'NUTQ!',
+                              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w800, color: Colors.white),
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 10),
-
                       const Text(
                         'Welcome to our amazing learning adventure!\n'
                             'A magical place where learning meets fun through\n'
                             'interactive games, speech activities, and personalized\n'
                             'adventures.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF6B7280),
-                            height: 1.4),
+                        style: TextStyle(fontSize: 14, color: Color(0xFF6B7280), height: 1.4),
                       ),
                       const SizedBox(height: 18),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          Icon(Icons.people_alt_outlined,
-                              size: 18, color: Color(0xFF7C3AED)),
+                          Icon(Icons.people_alt_outlined, size: 18, color: Color(0xFF7C3AED)),
                           SizedBox(width: 8),
                           Text(
                             'Join thousands of happy learners!',
-                            style: TextStyle(
-                                color: Color(0xFF7C3AED),
-                                fontWeight: FontWeight.w600),
+                            style: TextStyle(color: Color(0xFF7C3AED), fontWeight: FontWeight.w600),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 26),
-
+                      const SizedBox(height: 20),
+                      DropdownButtonFormField<String>(
+                        value: _selectedRole,
+                        hint: const Text('Select Role'),
+                        items: ['Child', 'Parent', 'Doctor']
+                            .map((role) => DropdownMenuItem(
+                          value: role,
+                          child: Text(role),
+                        ))
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() => _selectedRole = value);
+                        },
+                        decoration: const InputDecoration(labelText: 'Role'),
+                      ),
+                      const SizedBox(height: 10),
+                      TextField(
+                        controller: _usernameController,
+                        decoration: const InputDecoration(labelText: 'Username'),
+                      ),
+                      const SizedBox(height: 10),
+                      TextField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(labelText: 'Password'),
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 20),
                       SizedBox(
                         width: double.infinity,
                         child: DecoratedBox(
@@ -253,230 +257,86 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             ),
                             borderRadius: BorderRadius.circular(28),
                             boxShadow: const [
-                              BoxShadow(
-                                  color: Color(0x336363F1),
-                                  blurRadius: 10,
-                                  offset: Offset(0, 6)),
+                              BoxShadow(color: Color(0x336363F1), blurRadius: 10, offset: Offset(0, 6)),
                             ],
                           ),
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (_) =>
-                                    const ChildInterestsScreen()),
-                              );
+                              if (_selectedRole != null &&
+                                  _usernameController.text.isNotEmpty &&
+                                  _passwordController.text.isNotEmpty) {
+                                ref.read(userProvider.notifier).updateUser(
+                                  role: _selectedRole!,
+                                  username: _usernameController.text,
+                                  password: _passwordController.text,
+                                  name: _usernameController.text,
+                                );
+                                Navigator.pushReplacementNamed(context, '/dashboard').then((_) {
+                                  if (!mounted) return;
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Successfully navigated to Dashboard!')),
+                                  );
+                                }).catchError((error) {
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Navigation error: $error')),
+                                    );
+                                  }
+                                });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Please fill all fields')),
+                                );
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.transparent,
                               shadowColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(28)),
-                              padding:
-                              const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+                              padding: const EdgeInsets.symmetric(vertical: 14),
                             ),
-                            child: const Text('Get Started! 🔑',
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white)),
+                            child: const Text('Get Started! 🔑', style: TextStyle(fontSize: 16, color: Colors.white)),
                           ),
                         ),
                       ),
                       const SizedBox(height: 14),
-
-                      Row(
-                        children: const [
-                          Expanded(
-                              child: Divider(color: Color(0xFFD1D5DB))),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('or',
-                                style: TextStyle(color: Color(0xFF9CA3AF))),
-                          ),
-                          Expanded(
-                              child: Divider(color: Color(0xFFD1D5DB))),
-                        ],
+                      TextButton(
+                        onPressed: _showRoleDialog,
+                        child: const Text(
+                          "Don’t have an account? Sign Up",
+                          style: TextStyle(color: Color(0xFF6366F1), fontWeight: FontWeight.w600),
+                        ),
                       ),
                       const SizedBox(height: 14),
-
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(
                           onPressed: _signingIn ? null : _handleGoogleSignIn,
-                          icon: Image.asset('assets/images/google_icon.png',
-                              height: 18),
+                          icon: Image.asset('assets/images/google_icon.png', height: 18),
                           label: Text(
-                            _signingIn
-                                ? 'Signing in...'
-                                : 'Continue with Google',
-                            style: const TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w600),
+                            _signingIn ? 'Signing in...' : 'Continue with Google',
+                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
                           ),
                           style: OutlinedButton.styleFrom(
-                            padding:
-                            const EdgeInsets.symmetric(vertical: 14),
-                            side: const BorderSide(
-                                color: Color(0xFFD1D5DB)),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14)),
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            side: const BorderSide(color: Color(0xFFD1D5DB)),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                             backgroundColor: Colors.white,
                           ),
                         ),
                       ),
                       const SizedBox(height: 16),
-
-                      TextButton(
-                        onPressed: _showRoleDialog,
-                        child: const Text(
-                          "Don’t have an account? Create one",
-                          style: TextStyle(
-                              color: Color(0xFF6366F1),
-                              fontWeight: FontWeight.w600),
-                        ),
-                      ),
-
                       const Text(
                         'Your data is secure and we respect your privacy.\n'
                             'We use Google for easy sign-in and progress syncing.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFF9CA3AF),
-                            height: 1.35),
+                        style: TextStyle(fontSize: 12, color: Color(0xFF9CA3AF), height: 1.35),
                       ),
                     ],
                   ),
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// 🔽 شاشة اهتمامات الطفل
-class ChildInterestsScreen extends StatefulWidget {
-  const ChildInterestsScreen({super.key});
-
-  @override
-  State<ChildInterestsScreen> createState() => _ChildInterestsScreenState();
-}
-
-class _ChildInterestsScreenState extends State<ChildInterestsScreen> {
-  final List<Map<String, String>> interests = [
-    {'id': 'animals', 'label': 'Animals', 'icon': '🐼'},
-    {'id': 'colors', 'label': 'Colors', 'icon': '🌈'},
-    {'id': 'numbers', 'label': 'Numbers', 'icon': '🔢'},
-    {'id': 'letters', 'label': 'Letters', 'icon': '📝'},
-    {'id': 'music', 'label': 'Music', 'icon': '🎵'},
-    {'id': 'stories', 'label': 'Stories', 'icon': '📚'},
-  ];
-
-  final Set<String> selected = {};
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
-      body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.85,  // عرض متوسط
-          height: MediaQuery.of(context).size.height * 0.6, // ارتفاع متوسط
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Text(
-                    "What do you love learning about?",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF111827)),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 6),
-                  const Text(
-                    "Pick your favorite topics",
-                    style: TextStyle(
-                        fontSize: 14, color: Color(0xFF6B7280), height: 1.3),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 18),
-                  Expanded(
-                    child: GridView.count(
-                      shrinkWrap: true,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      children: interests.map((item) {
-                        final isSelected = selected.contains(item['id']);
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              if (isSelected) {
-                                selected.remove(item['id']!);
-                              } else {
-                                selected.add(item['id']!);
-                              }
-                            });
-                          },
-                          child: Card(
-                            color: isSelected
-                                ? Colors.purple.shade100
-                                : Colors.white,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
-                            child: Center(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(item['icon']!, style: const TextStyle(fontSize: 32)),
-                                  const SizedBox(height: 8),
-                                  Text(item['label']!,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.w600)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      OutlinedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Back"),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          debugPrint("Selected interests: $selected");
-                          Navigator.pop(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF6366F1),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                        child: const Text("Let's Learn! 🎉"),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
           ),
         ),
       ),

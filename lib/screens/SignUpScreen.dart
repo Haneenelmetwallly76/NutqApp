@@ -37,8 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("${widget.role} account created successfully!")),
       );
-      // هنا بقى تكملي تخزين البيانات في Firebase / DB
-      Navigator.pop(context); // يرجع للصفحة الرئيسية أو يروح للـ Dashboard
+      Navigator.pop(context);
     }
   }
 

@@ -119,7 +119,6 @@ class _InterestsScreenState extends State<InterestsScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // هنا ممكن نستخدم selectedInterests
                         debugPrint("Selected: $selectedInterests");
                       },
                       child: const Text("Let's Learn! 🎉"),
