@@ -6,15 +6,15 @@ class AvailableExercisesWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
-        children: const [
+        children: [
           ExerciseCard(
             icon: Icons.check_circle,
             iconColor: Colors.green,
-            title: 'Letter "R" Sounds',
-            subtitle: '5 words',
+            title: 'حرف الراء',
+            subtitle: '5 كلمات',
             progress: '85%',
             isCompleted: true,
           ),
@@ -22,8 +22,8 @@ class AvailableExercisesWidget extends StatelessWidget {
           ExerciseCard(
             icon: Icons.play_arrow,
             iconColor: Colors.pinkAccent,
-            title: 'Letter "S" Sounds',
-            subtitle: '5 words',
+            title: 'حرف السين',
+            subtitle: '5 كلمات',
             progress: null,
             isCompleted: false,
           ),
@@ -31,8 +31,8 @@ class AvailableExercisesWidget extends StatelessWidget {
           ExerciseCard(
             icon: Icons.play_arrow,
             iconColor: Colors.pinkAccent,
-            title: 'Tongue Twisters',
-            subtitle: '3 words',
+            title: 'جمل تحدي',
+            subtitle: '3 كلمات',
             progress: null,
             isCompleted: false,
           ),

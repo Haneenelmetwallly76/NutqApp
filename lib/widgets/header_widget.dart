@@ -26,11 +26,11 @@ class HeaderWidget extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () => Navigator.pop(context),
-                icon: const Icon(Icons.arrow_back, color: Colors.white),
+                icon: const Icon(Icons.arrow_forward, color: Colors.white),
               ),
               const SizedBox(width: 8),
               const Text(
-                "Speech Therapy 🎤",
+                'جلسة تخاطب 🎤',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -41,7 +41,7 @@ class HeaderWidget extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           const Text(
-            "Practice makes perfect! Let's work on pronunciation.",
+            'التدريب يصنع الاتقان! لنحسّن النطق معًا.',
             style: TextStyle(fontSize: 16, color: Colors.white70),
           ),
         ],

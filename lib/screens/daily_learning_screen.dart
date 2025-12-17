@@ -10,20 +10,20 @@ class DailyLearningScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      body: SafeArea(
+      body: const SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const DailyLearningHeaderWidget(
+              DailyLearningHeaderWidget(
                 title: "Learning Center 📚",
                 subtitle: "Choose what you'd like to learn today!",
               ),
 
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // ==== Your Progress Section ====
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'Your Progress',
@@ -34,9 +34,9 @@ class DailyLearningScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
                     Row(
@@ -50,7 +50,7 @@ class DailyLearningScreen extends StatelessWidget {
                             backgroundColor: Colors.white,
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12),
                         Expanded(
                           child: ProgressCard(
                             icon: Icons.menu_book,
@@ -62,7 +62,7 @@ class DailyLearningScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     Row(
                       children: [
                         Expanded(
@@ -74,7 +74,7 @@ class DailyLearningScreen extends StatelessWidget {
                             backgroundColor: Colors.white,
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: 12),
                         Expanded(
                           child: ProgressCard(
                             icon: Icons.palette,
@@ -90,10 +90,10 @@ class DailyLearningScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 32),
+              SizedBox(height: 32),
 
               // ==== Available Lessons Section ====
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
                   'Available Lessons',
@@ -104,9 +104,9 @@ class DailyLearningScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16),
 
-              const LessonCard(
+              LessonCard(
                 icon: Icons.check_circle,
                 iconColor: Colors.green,
                 title: 'Counting to 10',
@@ -118,7 +118,7 @@ class DailyLearningScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
 
-              const LessonCard(
+              LessonCard(
                 icon: Icons.check_circle,
                 iconColor: Colors.green,
                 title: 'Letter Sounds A-E',
@@ -130,7 +130,7 @@ class DailyLearningScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
 
-              const LessonCard(
+              LessonCard(
                 icon: Icons.play_arrow,
                 iconColor: Colors.blue,
                 title: 'Addition Basics',
@@ -142,7 +142,7 @@ class DailyLearningScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
 
-              const LessonCard(
+              LessonCard(
                 icon: Icons.play_arrow,
                 iconColor: Colors.blue,
                 title: 'Story Time',
@@ -154,7 +154,7 @@ class DailyLearningScreen extends StatelessWidget {
               ),
               SizedBox(height: 12),
 
-              const LessonCard(
+              LessonCard(
                 icon: Icons.lock,
                 iconColor: Colors.grey,
                 title: 'Multiplication',

@@ -7,12 +7,12 @@ class ProfileCardWidget extends StatelessWidget {
   final int level;
 
   const ProfileCardWidget({
-    Key? key,
+    super.key,
     required this.name,
     required this.role,
     required this.points,
     required this.level,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +52,11 @@ class ProfileCardWidget extends StatelessWidget {
                   const SizedBox(height: 8),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.amber, size: 18),
+                      const Icon(Icons.star, color: Colors.amber, size: 18),
                       const SizedBox(width: 4),
                       Text("Points: $points"),
                       const SizedBox(width: 12),
-                      Icon(Icons.upgrade, color: Colors.blue, size: 18),
+                      const Icon(Icons.upgrade, color: Colors.blue, size: 18),
                       const SizedBox(width: 4),
                       Text("Level: $level"),
                     ],

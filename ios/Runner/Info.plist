@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>This app uses speech recognition to help with speech therapy exercises and learning activities.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Microphone access is required for speech therapy exercises and recording your voice for analysis.</string>
 </dict>
 </plist>

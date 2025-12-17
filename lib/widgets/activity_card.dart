@@ -9,14 +9,14 @@ class ActivityCard extends StatelessWidget {
   final Color? iconColor;       // اضفنا
 
   const ActivityCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.subtitle,
     required this.icon,
     required this.onTap,
     this.backgroundColor, // افتراضي null
     this.iconColor,       // افتراضي null
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:camera/camera.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,50 +12,37 @@ class CameraPracticeScreen extends ConsumerStatefulWidget {
 }
 
 class _CameraPracticeScreenState extends ConsumerState<CameraPracticeScreen> {
-  CameraController? _controller;
   bool _isLoading = false;
   String? _recognizedLetter;
 
-  @override
-  void initState() {
-    super.initState();
-    _initCamera();
-  }
-
-  Future<void> _initCamera() async {
-    final cameras = await availableCameras();
-    final firstCamera = cameras.first;
-
-    _controller = CameraController(firstCamera, ResolutionPreset.medium);
-    await _controller!.initialize();
-    if (mounted) setState(() {});
-  }
-
-  Future<void> _captureAndSend() async {
-    if (_controller == null || !_controller!.value.isInitialized) return;
-
-    final picture = await _controller!.takePicture();
+  Future<void> _sendRequest() async {
     setState(() => _isLoading = true);
 
-    final url = Uri.parse("https://nutq.runasp.net/api/SignLanguage/SignLanguage");
+    try {
+      final url = Uri.parse("https://nutq.runasp.net/api/SignLanguage/SignLanguage");
 
-    final request = http.MultipartRequest("GET", url)
-      ..headers["Authorization"] = "Bearer ${widget.token}";
+      final request = http.MultipartRequest("POST", url)
+        ..headers["Authorization"] = "Bearer ${widget.token}";
 
-    // ⚠️ لو الـ API محتاج صورة، نخليها POST ونرفع الملف:
-    // request.files.add(await http.MultipartFile.fromPath("image", picture.path));
+      // Add image file if available:
+      // request.files.add(await http.MultipartFile.fromPath("image", picture.path));
 
-    final response = await request.send();
-    final body = await response.stream.bytesToString();
+      final response = await request.send();
+      final body = await response.stream.bytesToString();
 
-    if (response.statusCode == 200) {
-      final data = jsonDecode(body);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(body);
+        setState(() {
+          _recognizedLetter = data["result"]["letter"];
+        });
+      } else {
+        setState(() {
+          _recognizedLetter = "❌ Error ${response.statusCode}";
+        });
+      }
+    } catch (e) {
       setState(() {
-        _recognizedLetter = data["result"]["letter"];
-      });
-    } else {
-      setState(() {
-        _recognizedLetter = "❌ Error ${response.statusCode}";
+        _recognizedLetter = "❌ Error: $e";
       });
     }
 
@@ -65,24 +50,19 @@ class _CameraPracticeScreenState extends ConsumerState<CameraPracticeScreen> {
   }
 
   @override
-  void dispose() {
-    _controller?.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (_controller == null || !_controller!.value.isInitialized) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
       appBar: AppBar(title: const Text("Camera Practice")),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
-            child: CameraPreview(_controller!),
+          const Icon(Icons.camera_alt, size: 80, color: Colors.grey),
+          const SizedBox(height: 20),
+          const Text(
+            "Camera Practice",
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 30),
           if (_recognizedLetter != null)
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -91,9 +71,14 @@ class _CameraPracticeScreenState extends ConsumerState<CameraPracticeScreen> {
                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
-          if (_isLoading) const CircularProgressIndicator(),
+          if (_isLoading) 
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(),
+            ),
+          const SizedBox(height: 20),
           ElevatedButton.icon(
-            onPressed: _captureAndSend,
+            onPressed: _isLoading ? null : _sendRequest,
             icon: const Icon(Icons.camera),
             label: const Text("Capture Sign"),
           ),

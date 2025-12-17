@@ -14,7 +14,7 @@ class ChildCard extends StatelessWidget {
   final double goalProgress; // نسبة الإنجاز (0 → 1)
 
   const ChildCard({
-    Key? key,
+    super.key,
     required this.childName,
     this.avatarUrl = 'https://i.pravatar.cc/150?img=3', // افتراضي
     this.imageUrl ='',
@@ -24,7 +24,7 @@ class ChildCard extends StatelessWidget {
     this.weeklyTime = 0,
     this.weeklyGoal = 5,
     this.goalProgress = 0.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

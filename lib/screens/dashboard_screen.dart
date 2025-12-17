@@ -99,8 +99,8 @@ class DashboardScreen extends ConsumerWidget {
 
               const SizedBox(height: 12),
 
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
                   children: [
                     QuickCardWidget(
@@ -157,22 +157,22 @@ class DashboardScreen extends ConsumerWidget {
           if (index == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => DailyLearningScreen()),
+              MaterialPageRoute(builder: (context) => const DailyLearningScreen()),
             );
           } else if (index == 2) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AchievementsScreen()),
+              MaterialPageRoute(builder: (context) => const AchievementsScreen()),
             );
           } else if (index == 3) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ReportsScreen()),
+              MaterialPageRoute(builder: (context) => const ReportsScreen()),
             );
           } else if (index == 4) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SettingsScreen()),
+              MaterialPageRoute(builder: (context) => const SettingsScreen()),
             );
           }
         },

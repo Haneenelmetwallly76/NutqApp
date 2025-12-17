@@ -36,18 +36,18 @@ class App extends StatelessWidget {
             Navigator.pushReplacementNamed(context, '/dashboard');
           },
         ),
-        '/dashboard': (context) => DashboardScreen(),
+        '/dashboard': (context) => const DashboardScreen(),
         '/exercise': (_) => const ExerciseScreen(),
         '/sign_language': (_) => const SignLanguageScreen(),
         // '/reports': (_) => const ReportsScreen(), // ❌ متشال عشان يمنع التعارض
         '/progress': (_) => const ProgressTrackingScreen(),
         '/feedback': (_) => const FeedbackScreen(),
-        '/sign_in': (context) => SignInScreen(),
+        '/sign_in': (context) => const SignInScreen(),
         '/sign_up_child': (_) => SignUpChild(),
         '/sign_up_parent': (_) => SignUpParent(),
-        '/sign_up_doctor': (_) => SignUpDoctor(),
-        '/daily-learning': (_) => DailyLearningScreen(),
-        '/parent': (context) => ParentDashboard(),
+        '/sign_up_doctor': (_) => const SignUpDoctor(),
+        '/daily-learning': (_) => const DailyLearningScreen(),
+        '/parent': (context) => const ParentDashboard(),
       },
     );
   }

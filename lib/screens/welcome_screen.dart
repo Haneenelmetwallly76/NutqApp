@@ -117,7 +117,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final gradient = const LinearGradient(
+    const gradient = LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [Color(0xFFF5F7FA), Color(0xFFE0E7FF)],
@@ -210,9 +210,9 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen>
                         style: TextStyle(fontSize: 14, color: Color(0xFF6B7280), height: 1.4),
                       ),
                       const SizedBox(height: 18),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(Icons.people_alt_outlined, size: 18, color: Color(0xFF7C3AED)),
                           SizedBox(width: 8),
                           Text(
@@ -223,7 +223,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen>
                       ),
                       const SizedBox(height: 20),
                       DropdownButtonFormField<String>(
-                        value: _selectedRole,
+                        initialValue: _selectedRole,
                         hint: const Text('Select Role'),
                         items: ['Child', 'Parent', 'Doctor']
                             .map((role) => DropdownMenuItem(

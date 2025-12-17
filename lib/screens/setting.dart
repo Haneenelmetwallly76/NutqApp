@@ -130,7 +130,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: SwitchListTile(
         title: Text(title),
         value: value,
-        activeColor: Colors.purple,
+        activeThumbColor: Colors.purple,
         onChanged: onChanged,
       ),
     );

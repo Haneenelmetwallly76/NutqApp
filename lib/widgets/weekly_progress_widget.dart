@@ -18,7 +18,7 @@ class WeeklyProgressWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'This Week\'s Progress',
+            'تقدم هذا الأسبوع',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class WeeklyProgressWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Average Score: 83%',
+                    'المعدل: 83%',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,

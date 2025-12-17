@@ -15,12 +15,15 @@ dependencies:
   http: ^1.2.0
   record: ^6.1.1
   permission_handler: ^11.3.0
+  path_provider: ^2.1.0
+  camera: ^0.10.5
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.14.1
+  flutter_lints: ^4.0.0
 
 flutter_launcher_icons:
   android: true
@@ -33,4 +36,7 @@ flutter:
     - assets/images/nutq_app_logo.png
     - assets/images/google_icon.png
     - assets/images/profile_image.png
+    - assets/images/app_logo.png
+    - assets/model_unquant.tflite
+    - assets/labels.txt
     - assets/images/app_logo.png

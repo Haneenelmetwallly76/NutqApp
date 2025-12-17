@@ -24,24 +24,24 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
     final user = ref.watch(userProvider);
 
     // Null-safety & cast fixes
-    final childName = user.childName as String? ?? 'Unknown';
-    final avatarUrl = user.avatarUrl as String? ??
+    final childName = user.childName ?? 'Unknown';
+    final avatarUrl = user.avatarUrl ??
         'https://www.gravatar.com/avatar/placeholder';
-    final childAge = user.childAge as int? ?? 6;
-    final childLevel = user.childLevel as String? ?? '1';
-    final lastActivity = user.lastActivity as String? ?? 'Just Joined';
-    final weeklyTime = user.weeklyTime as int? ?? 0;
-    final weeklyGoal = user.weeklyGoal as int? ?? 5;
-    final goalProgress = user.goalProgress as double? ?? 0.0;
-    final totalMinutes = user.totalMinutes as int? ?? 0;
-    final totalLessons = user.totalLessons as int? ?? 0;
-    final averageScore = user.averageScore as String? ?? '0%';
+    final childAge = user.childAge ?? 6;
+    final childLevel = user.childLevel ?? '1';
+    final lastActivity = user.lastActivity ?? 'Just Joined';
+    final weeklyTime = user.weeklyTime ?? 0;
+    final weeklyGoal = user.weeklyGoal ?? 5;
+    final goalProgress = user.goalProgress ?? 0.0;
+    final totalMinutes = user.totalMinutes ?? 0;
+    final totalLessons = user.totalLessons ?? 0;
+    final averageScore = user.averageScore ?? '0%';
 
     // Theme colors
-    final primaryColor = Color(0xFF2E3A59); // Dark Blue
-    final accentColor = Color(0xFFF5A623);  // Gold
-    final backgroundColor = Color(0xFFF2F2F7); // Light Grey
-    final cardBackground = Colors.white;
+    const primaryColor = Color(0xFF2E3A59); // Dark Blue
+    const accentColor = Color(0xFFF5A623);  // Gold
+    const backgroundColor = Color(0xFFF2F2F7); // Light Grey
+    const cardBackground = Colors.white;
 
     return Scaffold(
       backgroundColor: backgroundColor,

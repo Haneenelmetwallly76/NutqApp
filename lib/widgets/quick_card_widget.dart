@@ -7,12 +7,12 @@ class QuickCardWidget extends StatelessWidget {
   final Widget page;
 
   const QuickCardWidget({
-    Key? key,
+    super.key,
     required this.title,
     required this.icon,
     required this.color,
     required this.page,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

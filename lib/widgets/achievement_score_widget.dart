@@ -40,8 +40,8 @@ class AchievementScoreWidget extends StatelessWidget {
                     const AlwaysStoppedAnimation<Color>(Colors.blue),
                   ),
                 ),
-                Column(
-                  children: const [
+                const Column(
+                  children: [
                     Text(
                       '75%',
                       style: TextStyle(

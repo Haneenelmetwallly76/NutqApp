@@ -14,19 +14,19 @@ class SignInScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Sign In as ${user.role.isNotEmpty ? user.role : "User"}')),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
               controller: usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Username'),
             ),
             TextField(
               controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
               obscureText: true,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 ref.read(userProvider.notifier).updateUser(
@@ -36,7 +36,7 @@ class SignInScreen extends ConsumerWidget {
                 );
                 Navigator.pushReplacementNamed(context, '/dashboard');
               },
-              child: Text('Sign In'),
+              child: const Text('Sign In'),
             ),
           ],
         ),

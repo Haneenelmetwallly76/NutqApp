@@ -25,22 +25,39 @@ class CurrentExerciseWidget extends StatelessWidget {
           child: Column(
             children: [
               const Text(
-                'Letter "R" Sounds',
+                'حرف الراء',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.black,
                 ),
+                textAlign: TextAlign.right,
               ),
               const SizedBox(height: 8),
               Text(
-                'Practice saying words with the "R" sound',
+                'تدرب على نطق كلمات تحتوي حرف الراء',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey[600],
                 ),
+                textAlign: TextAlign.right,
               ),
               const SizedBox(height: 24),
+              // Target words for Letter Ra
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('كلمات مستهدفة:', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                  SizedBox(height: 8),
+                  Text('• رمان', style: TextStyle(fontSize: 16)),
+                  Text('• قطار', style: TextStyle(fontSize: 16)),
+                  Text('• رجل', style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 12),
+                  Text('جملة هدف:', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                  SizedBox(height: 8),
+                  Text('رامي يلعب بالرمل', style: TextStyle(fontSize: 16)),
+                ],
+              ),
               GestureDetector(
                 onTap: onRecordPressed,
                 child: Container(
@@ -66,19 +83,22 @@ class CurrentExerciseWidget extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                isRecording ? 'Recording...' : 'Tap to start recording',
+                isRecording ? 'جاري التسجيل... 🔴' : 'اضغط للتسجيل 🎙️',
                 style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                textAlign: TextAlign.center,
               ),
               if (transcribedText != null) ...[
                 const SizedBox(height: 20),
                 const Text(
-                  "Recognized Text:",
+                  "النص المتعرف عليه:",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.right,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   transcribedText!,
-                  style: const TextStyle(fontSize: 15, color: Colors.black87),
+                  style: const TextStyle(fontSize: 18, color: Colors.black87, fontWeight: FontWeight.w600),
+                  textAlign: TextAlign.right,
                 ),
               ],
             ],

@@ -5,10 +5,10 @@ class DashboardHeaderWidget extends StatelessWidget {
   final String role;
 
   const DashboardHeaderWidget({
-    Key? key,
+    super.key,
     required this.name,
     required this.role,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

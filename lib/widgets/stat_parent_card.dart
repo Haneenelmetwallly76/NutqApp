@@ -9,13 +9,13 @@ class StatParentCard extends StatelessWidget {
   final Color? iconColor;       // جديد: لون الأيقونة والقيمة
 
   const StatParentCard({
-    Key? key,
+    super.key,
     required this.title,
     required this.value,
     required this.icon,
     this.backgroundColor,
     this.iconColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
