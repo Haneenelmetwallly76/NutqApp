@@ -11,17 +11,20 @@
 
 ## 📱 Screenshots
 
-### Welcome & Authentication
-![Welcome Screen](screenshots/01-welcome.png) | ![Sign Up](screenshots/02-signup.png) | ![Sign In](screenshots/03-signin.png)
----|---|---
+### Authentication & Login
+![Login](screenshots/loginn.png) | ![Sign Up](screenshots/signup.png)
+---|---
 
 ### Main Features
-![Dashboard](screenshots/04-dashboard.png) | ![Speech Therapy](screenshots/05-speech-therapy.png) | ![Sign Language](screenshots/06-sign-language.png)
+![Dashboard](screenshots/dashboard.png) | ![Learning Center](screenshots/learningcenter.png) | ![Speech Therapy](screenshots/speach.png)
 ---|---|---
 
 ### Progress & Analytics
-![Progress Tracking](screenshots/07-progress.png) | ![Daily Learning](screenshots/08-daily-learning.png) | ![Parent Dashboard](screenshots/09-parent-dashboard.png)
----|---|---
+![Achievements](screenshots/achievements.png) | ![Reports](screenshots/reports.png)
+---|---
+
+### Settings & Preferences
+![Settings](screenshots/settings.png)
 
 ---
 
