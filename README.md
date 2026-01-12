@@ -1,203 +1,46 @@
 # 🎯 NutqApp - Kids Learning & Speech Therapy
 
-> Professional speech therapy and sign language learning platform for children with AI-powered recognition.
+AI-powered speech therapy and sign language learning platform for children.
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.3.0-02569B?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.3.0-0175C2?logo=dart)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
-
----
 
 ## 📱 Screenshots
 
-### Authentication & Login
-![Login](screenshots/loginn.png) | ![Sign Up](screenshots/signup.png)
----|---
+![Login](screenshots/loginn.png) | ![Dashboard](screenshots/dashboard.png) | ![Speech](screenshots/speach.png) | ![Reports](screenshots/reports.png)
+---|---|---|---
 
-### Main Features
-![Dashboard](screenshots/dashboard.png) | ![Learning Center](screenshots/learningcenter.png) | ![Speech Therapy](screenshots/speach.png)
----|---|---
+## ✨ Features
 
-### Progress & Analytics
-![Achievements](screenshots/achievements.png) | ![Reports](screenshots/reports.png)
----|---
-
-### Settings & Preferences
-![Settings](screenshots/settings.png)
-
----
-
-## ✨ Key Features
-
-### 🎤 Speech Therapy
-- Real-time speech recognition with Arabic support
-- Interactive pronunciation exercises
-- Instant feedback and transcription
-- Weekly progress tracking
-
-### 🖐️ Sign Language Recognition
-- AI-powered gesture detection (TensorFlow Lite)
-- Live camera stream processing
-- Arabic sign language support
-- Confidence scoring
-
-### 📊 Progress & Analytics
-- Visual performance charts
-- Achievement tracking
-- Daily learning goals
-- Detailed reports
-
-### 👥 Multi-Role Platform
-- Child-friendly interactive interface
-- Parent activity monitoring
-- Doctor professional dashboard
-- Role-based access control
-
----
+- 🎤 **Speech Therapy** - Real-time Arabic speech recognition with instant feedback
+- 🖐️ **Sign Language** - AI gesture detection using TensorFlow Lite
+- 📊 **Progress Tracking** - Analytics and achievement tracking
+- 👥 **Multi-Role** - Child, parent, and doctor dashboards
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Flutter 3.3.0 + Dart 3.3.0
-- **State Management**: Riverpod
-- **AI/ML**: TensorFlow Lite, Speech-to-Text APIs
-- **Backend**: Google Sign-In, HTTP APIs
-- **Storage**: Path Provider
-- **Camera & Audio**: Camera, Record, Permission Handler
+Flutter 3.3.0 • Dart 3.3.0 • Riverpod • TensorFlow Lite • Speech-to-Text
 
----
+## 🚀 Quick Start
 
-## 📦 Installation & Setup
-
-### Prerequisites
 ```bash
-Flutter SDK >= 3.3.0
-Dart SDK >= 3.3.0
-Android Studio / Xcode
-```
-
-### Quick Start
-```bash
-# Clone repository
 git clone https://github.com/Haneenelmetwallly76/NutqApp.git
 cd NutqApp
-
-# Install dependencies
 flutter pub get
-
-# Configure native dependencies
-cd android && ./gradlew build && cd ..
-cd ios && pod install && cd ..
-
-# Run app
 flutter run
-
-# Build release
-flutter build apk --release
 ```
 
----
-
-## 🚀 Usage
-
-### Speech Therapy
-1. Open app → Dashboard → Speech Therapy
-2. Select exercise and tap microphone
-3. Speak naturally for up to 30 seconds
-4. Get instant transcription feedback
-5. Earn points and track progress
-
-### Sign Language
-1. Go to Sign Language screen
-2. Grant camera permission
-3. Perform gestures in front of camera
-4. View detected signs with confidence scores
-5. Track your improvement
-
-### Parent/Doctor Roles
-- Monitor child/patient progress
-- Access detailed analytics and reports
-- Set learning goals and milestones
-- Export performance data
-
----
-
-## 📁 Project Structure
-
-```
-lib/
-├── screens/           # UI screens
-├── services/          # Business logic
-├── widgets/           # Reusable components
-└── providers/         # State management
-
-assets/
-├── images/            # App assets
-├── model_unquant.tflite
-└── labels.txt
-```
-
----
-
-## 📚 Key Dependencies
-
-| Package | Purpose |
-|---------|---------|
-| `google_fonts` | Typography |
-| `google_sign_in` | Authentication |
-| `flutter_riverpod` | State management |
-| `camera` | Real-time video |
-| `record` | Audio recording |
-| `permission_handler` | Runtime permissions |
-| `http` | API requests |
-| `web_socket_channel` | Real-time communication |
-
-See [pubspec.yaml](pubspec.yaml) for all dependencies.
-
----
-
-## 📱 App Screens
-
-1. **Welcome** - Onboarding with role selection
-2. **Dashboard** - Navigation hub  
-3. **Speech Therapy** - Interactive pronunciation practice
-4. **Sign Language** - Real-time AI gesture detection
-5. **Exercise Screen** - Browse exercises
-6. **Progress Tracking** - Analytics & metrics
-7. **Daily Learning** - Structured learning plan
-8. **Parent Dashboard** - Activity monitoring
-9. **Doctor Dashboard** - Professional tools
-10. **Settings** - User preferences
-
----
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
----
+See [pubspec.yaml](pubspec.yaml) for dependencies and [SIGN_LANGUAGE_IMPLEMENTATION.md](SIGN_LANGUAGE_IMPLEMENTATION.md) for detailed docs.
 
 ## 📝 License
 
-MIT License - See [LICENSE](LICENSE) for details
+MIT License
 
 ---
 
-## 👨‍💼 Author
-
-**Haneen Elmetwalley**  
-GitHub: [@Haneenelmetwallly76](https://github.com/Haneenelmetwallly76)
-
----
-
-## 📞 Support
-
-- 🐛 [Report Issues](https://github.com/Haneenelmetwallly76/NutqApp/issues)
-- 📖 [Documentation](SIGN_LANGUAGE_IMPLEMENTATION.md)
+**Author**: Haneen Elmetwalley [@Haneenelmetwallly76](https://github.com/Haneenelmetwallly76)  
+**Issues**: [Report Bug](https://github.com/Haneenelmetwallly76/NutqApp/issues)
 
 ---
 
