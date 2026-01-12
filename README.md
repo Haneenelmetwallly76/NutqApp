@@ -1,6 +1,6 @@
 # 🎯 NutqApp - Kids Learning & Speech Therapy
 
-> A comprehensive Flutter-based educational platform for children's speech therapy, sign language recognition, and interactive learning exercises.
+> Professional speech therapy and sign language learning platform for children with AI-powered recognition.
 
 ![Flutter](https://img.shields.io/badge/Flutter-3.3.0-02569B?logo=flutter)
 ![Dart](https://img.shields.io/badge/Dart-3.3.0-0175C2?logo=dart)
@@ -9,639 +9,193 @@
 
 ---
 
-## 📋 Table of Contents
+## 📱 Screenshots
 
-- [Overview](#overview)
-- [Features](#features)
-- [App Screens](#app-screens)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Dependencies](#dependencies)
-- [Contributing](#contributing)
-- [License](#license)
+### Welcome & Authentication
+![Welcome Screen](screenshots/01-welcome.png) | ![Sign Up](screenshots/02-signup.png) | ![Sign In](screenshots/03-signin.png)
+---|---|---
 
----
+### Main Features
+![Dashboard](screenshots/04-dashboard.png) | ![Speech Therapy](screenshots/05-speech-therapy.png) | ![Sign Language](screenshots/06-sign-language.png)
+---|---|---
 
-## 🎓 Overview
-
-**NutqApp** is a comprehensive learning platform designed to support children's development through:
-- **Speech Therapy**: Interactive pronunciation practice with real-time speech recognition
-- **Sign Language Recognition**: AI-powered sign language gesture detection
-- **Progress Tracking**: Detailed analytics and visual progress reports
-- **Multi-role Support**: Separate interfaces for children, parents, and doctors
-
-The app combines modern AI technology with user-friendly design to make learning engaging and effective.
+### Progress & Analytics
+![Progress Tracking](screenshots/07-progress.png) | ![Daily Learning](screenshots/08-daily-learning.png) | ![Parent Dashboard](screenshots/09-parent-dashboard.png)
+---|---|---
 
 ---
 
-## ✨ Features
+## ✨ Key Features
 
-### 🎤 Speech Therapy Module
-- **Real-time Speech Recognition** - Convert voice to text using Google's speech API
-- **Interactive Exercises** - Structured pronunciation practice with instant feedback
-- **Progress Tracking** - Weekly progress visualization and achievement tracking
-- **Quick Practice** - One-tap access to speech practice sessions
+### 🎤 Speech Therapy
+- Real-time speech recognition with Arabic support
+- Interactive pronunciation exercises
+- Instant feedback and transcription
+- Weekly progress tracking
 
 ### 🖐️ Sign Language Recognition
-- **AI-Powered Detection** - TensorFlow Lite model for gesture recognition
-- **Real-time Camera Streaming** - Live sign language detection
-- **Arabic Gesture Library** - Comprehensive Arabic sign language support
-- **Confidence Scoring** - Accuracy metrics for each recognized gesture
+- AI-powered gesture detection (TensorFlow Lite)
+- Live camera stream processing
+- Arabic sign language support
+- Confidence scoring
 
 ### 📊 Progress & Analytics
-- **Daily Learning Tracking** - Monitor daily learning activities
-- **Performance Reports** - Comprehensive progress reports for parents and doctors
-- **Weekly Statistics** - Visual charts and progress metrics
-- **Achievement Badges** - Gamification to boost motivation
+- Visual performance charts
+- Achievement tracking
+- Daily learning goals
+- Detailed reports
 
 ### 👥 Multi-Role Platform
-- **Child Interface** - Colorful, interactive learning experience
-- **Parent Dashboard** - Monitor child's progress and activity
-- **Doctor Dashboard** - Professional tools for therapists and educators
-- **Settings Management** - Personalization and preferences
-
-### 🔐 Authentication
-- **Google Sign-In** - Quick and secure authentication
-- **Role-Based Access** - Customized interfaces per user type
-- **Profile Management** - User profile customization
-
----
-
-## 📱 App Screens
-
-### 1. **Welcome Screen**
-Initial onboarding screen with app introduction and quick navigation to main features.
-
-```
-┌─────────────────┐
-│   Welcome       │
-│   NutqApp       │
-│                 │
-│  [Get Started]  │
-│   [Sign In]     │
-└─────────────────┘
-```
-
-**Features**: Smooth animations, role selection, quick sign-in option
-
----
-
-### 2. **Dashboard Screen**
-Main hub with quick access to all features - speech therapy, sign language, and progress tracking.
-
-```
-┌──────────────────────┐
-│    Dashboard         │
-├──────────────────────┤
-│  Quick Actions:      │
-│  🎤 Speech Therapy   │
-│  🖐️  Sign Language   │
-│  📊 Progress         │
-│  💬 Feedback         │
-└──────────────────────┘
-```
-
-**Features**: Navigation hub, quick action buttons, user greeting, activity summary
-
----
-
-### 3. **Speech Therapy Screen**
-Interactive speech practice with real-time transcription and exercises.
-
-```
-┌──────────────────────┐
-│ Speech Therapy       │
-├──────────────────────┤
-│ ┌──────────────────┐ │
-│ │ Recognized Text: │ │
-│ │ "Your Speech"    │ │
-│ └──────────────────┘ │
-│                      │
-│ 🎯 Current Exercise: │
-│    "R" Sounds        │
-│                      │
-│    [🎤 Listening...] │
-└──────────────────────┘
-```
-
-**Features**: 
-- Real-time speech recognition with Arabic support
-- Current exercise display
-- Live transcription feedback
-- Confidence indicators
-- Color-coded status (listening, complete, error)
-
----
-
-### 4. **Sign Language Screen**
-Real-time gesture recognition with camera preview and AI detection.
-
-```
-┌──────────────────────┐
-│ Sign Language        │
-├──────────────────────┤
-│  ┌────────────────┐  │
-│  │  📹 Camera     │  │
-│  │   Preview      │  │
-│  └────────────────┘  │
-│                      │
-│  Detected: السلام    │
-│  Confidence: 95%     │
-│  [▶ Play] [⏹ Stop]  │
-└──────────────────────┘
-```
-
-**Features**:
-- Live camera feed processing
-- TensorFlow Lite model inference
-- Arabic sign language detection
-- Real-time confidence scoring
-- Gesture history tracking
-
----
-
-### 5. **Exercise Screen**
-Browse and select from available exercises with difficulty levels.
-
-```
-┌──────────────────────┐
-│ Available Exercises  │
-├──────────────────────┤
-│ 📝 Exercise 1        │
-│    Beginner Level    │
-│                      │
-│ 📝 Exercise 2        │
-│    Intermediate      │
-│                      │
-│ 📝 Exercise 3        │
-│    Advanced          │
-└──────────────────────┘
-```
-
-**Features**:
-- Categorized exercise list
-- Difficulty levels
-- Progress indicators
-- Exercise descriptions
-- Start/Resume functionality
-
----
-
-### 6. **Progress Tracking Screen**
-Detailed analytics and visual progress reports.
-
-```
-┌──────────────────────┐
-│ Progress Tracking    │
-├──────────────────────┤
-│ Weekly Stats:        │
-│ ████████░░ 80%       │
-│                      │
-│ Completed: 24        │
-│ Remaining: 6         │
-│                      │
-│ Best Day: Saturday   │
-└──────────────────────┘
-```
-
-**Features**:
-- Weekly progress charts
-- Completion statistics
-- Trend analysis
-- Achievement breakdown
-- Performance metrics
-
----
-
-### 7. **Parent Dashboard**
-Parental controls and child activity monitoring.
-
-```
-┌──────────────────────┐
-│ Parent Dashboard     │
-├──────────────────────┤
-│ Child: Ahmed         │
-│ Status: Active       │
-│                      │
-│ 📊 Reports           │
-│ ⏱️  Time Spent: 2h   │
-│ ✅ Exercises: 24     │
-│ 🏆 Badges: 5         │
-└──────────────────────┘
-```
-
-**Features**:
-- Child activity overview
-- Detailed performance reports
-- Time tracking
-- Achievement monitoring
-- Communication with therapist
-
----
-
-### 8. **Doctor Dashboard**
-Professional tools for therapists and educators.
-
-```
-┌──────────────────────┐
-│ Doctor Dashboard     │
-├──────────────────────┤
-│ Patients: 12         │
-│ Active Sessions: 3   │
-│                      │
-│ 📈 Analytics         │
-│ 🎯 Goals             │
-│ 📋 Reports           │
-│ ⚙️  Settings         │
-└──────────────────────┘
-```
-
-**Features**:
-- Patient management
-- Advanced analytics
-- Treatment planning
-- Progress monitoring
-- Report generation
-
----
-
-### 9. **Daily Learning Screen**
-Structured daily learning plan with activities and milestones.
-
-```
-┌──────────────────────┐
-│ Daily Learning       │
-├──────────────────────┤
-│ Today's Goals:       │
-│ ✅ Speech Practice   │
-│ ⏳ Sign Language     │
-│ ⏳ Reading Exercise  │
-│                      │
-│ Progress: 67%        │
-└──────────────────────┘
-```
-
-**Features**:
-- Daily task list
-- Goal setting
-- Activity scheduling
-- Progress tracking
-- Milestone celebrations
-
----
-
-### 10. **Settings Screen**
-User preferences, notifications, and account management.
-
-```
-┌──────────────────────┐
-│ Settings             │
-├──────────────────────┤
-│ 🔊 Notifications     │
-│ 🌙 Dark Mode         │
-│ 🌐 Language          │
-│ 🔐 Privacy           │
-│ ℹ️  About            │
-└──────────────────────┘
-```
-
-**Features**:
-- Notification preferences
-- Theme settings
-- Language selection
-- Privacy controls
-- App information
-
----
-
-### 11. **Authentication Screens**
-Multi-role authentication with role-based signup.
-
-#### Sign In Screen
-- Email/password login
-- Google Sign-In integration
-- Password recovery
-- Role selection
-
-#### Sign Up Screens
-- **Child Profile**: Age, interests, learning goals
-- **Parent Account**: Child linking, contact information
-- **Doctor Account**: Professional verification, specialty
+- Child-friendly interactive interface
+- Parent activity monitoring
+- Doctor professional dashboard
+- Role-based access control
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- **Flutter** (3.3.0+) - Cross-platform UI framework
-- **Dart** (3.3.0+) - Programming language
-- **Flutter Riverpod** (2.3.6) - State management
-- **Google Fonts** (6.2.1) - Typography
-
-### Backend & Services
-- **Google Sign-In** (6.1.6) - Authentication
-- **HTTP** (1.2.0) - API communication
-- **WebSocket Channel** (3.0.0) - Real-time communication
-
-### AI/ML
-- **TensorFlow Lite** - Sign language model
-- **Speech-to-Text** - Speech recognition APIs
-- **Camera** (0.10.5) - Real-time video processing
-
-### Storage & Utilities
-- **Path Provider** (2.1.0) - File system access
-- **Permission Handler** (11.3.0) - Runtime permissions
-- **Record** (6.1.1) - Audio recording
+- **Frontend**: Flutter 3.3.0 + Dart 3.3.0
+- **State Management**: Riverpod
+- **AI/ML**: TensorFlow Lite, Speech-to-Text APIs
+- **Backend**: Google Sign-In, HTTP APIs
+- **Storage**: Path Provider
+- **Camera & Audio**: Camera, Record, Permission Handler
 
 ---
 
-## 🏗️ Architecture
-
-```
-lib/
-├── main.dart                    # App entry point
-├── theme.dart                   # UI theme configuration
-├── screens/                     # Screen implementations
-│   ├── welcome_screen.dart
-│   ├── dashboard_screen.dart
-│   ├── speech_therapy_screen.dart
-│   ├── sign_language_screen.dart
-│   ├── exercise_screen.dart
-│   ├── progress_tracking_screen.dart
-│   ├── daily_learning_screen.dart
-│   ├── parent_dashboard.dart
-│   ├── doctor_dashboard.dart
-│   ├── sign_in_screen.dart
-│   ├── sign_up_child.dart
-│   ├── sign_up_parent.dart
-│   └── sign_up_doctor.dart
-├── services/                    # Business logic
-│   ├── speech_service.dart
-│   ├── sign_language_service.dart
-│   └── progress_service.dart
-├── widgets/                     # Reusable components
-│   ├── custom_buttons.dart
-│   ├── progress_card.dart
-│   └── exercise_tile.dart
-└── providers/                   # State management
-    ├── user_provider.dart
-    ├── progress_provider.dart
-    └── settings_provider.dart
-
-assets/
-├── images/                      # App images & icons
-├── model_unquant.tflite         # Sign language ML model
-└── labels.txt                   # Model labels
-```
-
-### Design Patterns
-- **Provider Pattern** - Centralized state management
-- **Service Layer** - Business logic separation
-- **Widget Composition** - Reusable UI components
-- **Navigator 2.0** - Advanced routing
-
----
-
-## 📦 Installation
+## 📦 Installation & Setup
 
 ### Prerequisites
-- Flutter SDK (3.3.0 or higher)
-- Dart SDK (3.3.0 or higher)
-- Android Studio or Xcode
-- Git
-
-### Steps
-
-1. **Clone the repository**
 ```bash
+Flutter SDK >= 3.3.0
+Dart SDK >= 3.3.0
+Android Studio / Xcode
+```
+
+### Quick Start
+```bash
+# Clone repository
 git clone https://github.com/Haneenelmetwallly76/NutqApp.git
 cd NutqApp
-```
 
-2. **Install dependencies**
-```bash
+# Install dependencies
 flutter pub get
-```
 
-3. **Configure native dependencies**
+# Configure native dependencies
+cd android && ./gradlew build && cd ..
+cd ios && pod install && cd ..
 
-**Android:**
-```bash
-cd android
-./gradlew build
-cd ..
-```
-
-**iOS:**
-```bash
-cd ios
-pod install
-cd ..
-```
-
-4. **Run the app**
-```bash
-# On device/emulator
+# Run app
 flutter run
 
-# With specific device
-flutter run -d <device_id>
-
-# With verbose logging
-flutter run -v
-```
-
-5. **Build for production**
-```bash
-# Android APK
+# Build release
 flutter build apk --release
-
-# Android App Bundle
-flutter build appbundle --release
-
-# iOS
-flutter build ios --release
 ```
 
 ---
 
 ## 🚀 Usage
 
-### First Time Setup
-1. Launch the app and tap **Get Started**
-2. Choose your role (Child, Parent, or Doctor)
-3. Complete the signup process
-4. Grant required permissions:
-   - Camera (for sign language)
-   - Microphone (for speech therapy)
-5. Customize profile preferences
+### Speech Therapy
+1. Open app → Dashboard → Speech Therapy
+2. Select exercise and tap microphone
+3. Speak naturally for up to 30 seconds
+4. Get instant transcription feedback
+5. Earn points and track progress
 
-### Speech Therapy Practice
-1. Navigate to **Speech Therapy** from dashboard
-2. Review current exercise and instructions
-3. Tap the microphone button to start listening
-4. Speak naturally for up to 30 seconds
-5. View real-time transcription feedback
-6. Complete exercise to earn points and badges
-
-### Sign Language Training
-1. Go to **Sign Language** screen
-2. Allow camera permission when prompted
-3. Perform sign language gestures in front of camera
+### Sign Language
+1. Go to Sign Language screen
+2. Grant camera permission
+3. Perform gestures in front of camera
 4. View detected signs with confidence scores
-5. Practice repeatedly to improve accuracy
-6. Monitor your sign recognition statistics
+5. Track your improvement
 
-### Track Progress
-1. Open **Progress Tracking** screen
-2. View detailed weekly statistics
-3. Check completed exercises and achievements
-4. Monitor progress trends
-5. Set new learning goals
-
-### Parent/Doctor Features
-- View comprehensive child/patient reports
-- Monitor activity and progress
-- Set treatment goals
-- Export reports for analysis
-- Communicate with other professionals
+### Parent/Doctor Roles
+- Monitor child/patient progress
+- Access detailed analytics and reports
+- Set learning goals and milestones
+- Export performance data
 
 ---
 
-## 📚 Dependencies
+## 📁 Project Structure
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `google_fonts` | 6.2.1 | Typography & fonts |
-| `google_sign_in` | 6.1.6 | Google authentication |
-| `flutter_riverpod` | 2.3.6 | State management |
-| `http` | 1.2.0 | HTTP requests |
-| `record` | 6.1.1 | Audio recording |
-| `permission_handler` | 11.3.0 | Runtime permissions |
-| `path_provider` | 2.1.0 | File system access |
-| `camera` | 0.10.5 | Camera access |
-| `web_socket_channel` | 3.0.0 | WebSocket support |
+```
+lib/
+├── screens/           # UI screens
+├── services/          # Business logic
+├── widgets/           # Reusable components
+└── providers/         # State management
 
-See [pubspec.yaml](pubspec.yaml) for complete dependencies.
+assets/
+├── images/            # App assets
+├── model_unquant.tflite
+└── labels.txt
+```
+
+---
+
+## 📚 Key Dependencies
+
+| Package | Purpose |
+|---------|---------|
+| `google_fonts` | Typography |
+| `google_sign_in` | Authentication |
+| `flutter_riverpod` | State management |
+| `camera` | Real-time video |
+| `record` | Audio recording |
+| `permission_handler` | Runtime permissions |
+| `http` | API requests |
+| `web_socket_channel` | Real-time communication |
+
+See [pubspec.yaml](pubspec.yaml) for all dependencies.
+
+---
+
+## 📱 App Screens
+
+1. **Welcome** - Onboarding with role selection
+2. **Dashboard** - Navigation hub  
+3. **Speech Therapy** - Interactive pronunciation practice
+4. **Sign Language** - Real-time AI gesture detection
+5. **Exercise Screen** - Browse exercises
+6. **Progress Tracking** - Analytics & metrics
+7. **Daily Learning** - Structured learning plan
+8. **Parent Dashboard** - Activity monitoring
+9. **Doctor Dashboard** - Professional tools
+10. **Settings** - User preferences
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
-
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
+3. Commit changes (`git commit -m 'Add feature'`)
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
-### Development Guidelines
-- Follow [Dart Style Guide](https://dart.dev/guides/language/effective-dart/style)
-- Add tests for new features
-- Update documentation
-- Test on multiple devices/OS versions
-- Maintain code coverage above 80%
-
-### Reporting Issues
-- Use clear, descriptive titles
-- Include device/OS information
-- Provide steps to reproduce
-- Attach screenshots/videos if applicable
 
 ---
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2026 Haneen Elmetwalley
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-```
+MIT License - See [LICENSE](LICENSE) for details
 
 ---
 
-## 👨‍💼 Author & Contact
+## 👨‍💼 Author
 
-**Haneen Elmetwalley**
-- GitHub: [@Haneenelmetwallly76](https://github.com/Haneenelmetwallly76)
-- Project Repository: [NutqApp](https://github.com/Haneenelmetwallly76/NutqApp)
-
----
-
-## 🙏 Acknowledgments
-
-- **Flutter Team** - Amazing cross-platform framework
-- **TensorFlow Team** - ML capabilities and model conversion tools
-- **Google Cloud** - Speech recognition and cloud services
-- **Community Contributors** - Bug reports and feature suggestions
-- **Beta Testers** - Valuable feedback and testing
+**Haneen Elmetwalley**  
+GitHub: [@Haneenelmetwallly76](https://github.com/Haneenelmetwallly76)
 
 ---
 
-## 📞 Support & Resources
+## 📞 Support
 
-### Getting Help
-- **Issues**: Open an [issue](https://github.com/Haneenelmetwallly76/NutqApp/issues)
-- **Discussions**: Check [discussions](https://github.com/Haneenelmetwallly76/NutqApp/discussions)
-- **Documentation**: See [detailed guides](SIGN_LANGUAGE_IMPLEMENTATION.md)
-
-### Related Documentation
-- [Sign Language Implementation Guide](SIGN_LANGUAGE_IMPLEMENTATION.md)
-- [Speech-to-Text Implementation](SPEECH_TO_TEXT_IMPLEMENTATION.md)
-- [Build & Deployment Report](BUILD_SUCCESS_REPORT.md)
-- [Quick Start Guide](QUICK_REFERENCE.md)
-
-### Resources
-- [Flutter Documentation](https://flutter.dev/docs)
-- [Dart Documentation](https://dart.dev/guides)
-- [TensorFlow Lite Guide](https://www.tensorflow.org/lite)
+- 🐛 [Report Issues](https://github.com/Haneenelmetwallly76/NutqApp/issues)
+- 📖 [Documentation](SIGN_LANGUAGE_IMPLEMENTATION.md)
 
 ---
 
-## 🔄 Version History
-
-| Version | Date | Major Changes |
-|---------|------|---|
-| **1.0.0** | Jan 2026 | 🎉 Initial release with all features |
-| **0.9.0** | Dec 2025 | 🎤 Speech-to-text implementation complete |
-| **0.8.0** | Dec 2025 | 🖐️ Sign language AI integration |
-| **0.7.0** | Dec 2025 | 📊 Progress tracking system |
-| **0.6.0** | Dec 2025 | 👥 Multi-role platform architecture |
-
-### Upcoming Features
-- 📱 Offline mode support
-- 🎮 Gamification enhancements
-- 🌐 Additional language support
-- 🤖 Advanced AI personalization
-- 📊 Enhanced analytics dashboard
-
----
-
-## 📊 Project Statistics
-
-- **Lines of Code**: 15,000+
-- **Test Coverage**: 85%+
-- **Supported Platforms**: iOS, Android, Web
-- **Minimum SDK**: Android 21, iOS 11.0
-- **App Size**: 53.4 MB (APK)
-
----
-
-**Last Updated**: January 2026  
-**Maintenance Status**: ✅ Active Development  
-**Production Ready**: ✅ Yes
+**Last Updated**: January 2026 | **Status**: ✅ Production Ready
