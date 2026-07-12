@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:record/record.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
@@ -136,7 +137,16 @@ class _SpeechTherapyScreenState extends State<SpeechTherapyScreen> with SingleTi
   }
 
   Future<void> sendToWhisper(File audioFile) async {
-    const apiKey = "YOUR_OPENAI_API_KEY";
+    final apiKey = dotenv.env['WHISPER_API_KEY'];
+
+    if (apiKey == null || apiKey.isEmpty) {
+      if (!mounted) return;
+      setState(() {
+        transcribedText = '❌ Missing Whisper API key. Add WHISPER_API_KEY to .env';
+      });
+      return;
+    }
+
     final url = Uri.parse("https://api.openai.com/v1/audio/transcriptions");
 
     final request = http.MultipartRequest("POST", url)
@@ -149,12 +159,14 @@ class _SpeechTherapyScreenState extends State<SpeechTherapyScreen> with SingleTi
     final body = await response.stream.bytesToString();
 
     if (response.statusCode == 200) {
-      final text = jsonDecode(body)["text"];
+      final text = jsonDecode(body)["text"] as String? ?? '';
+      if (!mounted) return;
       setState(() {
         transcribedText = text;
       });
     } else {
-      print("Error: ${response.statusCode}, $body");
+      debugPrint("Error: ${response.statusCode}, $body");
+      if (!mounted) return;
       setState(() {
         transcribedText = "❌ خطأ: لم يتم تحويل التسجيل إلى نص.";
       });

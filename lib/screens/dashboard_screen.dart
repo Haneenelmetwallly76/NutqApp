@@ -11,9 +11,9 @@ import 'package:new_notq_app/screens/setting.dart';
 
 // Widgets
 import '../widgets/dashboard_header_widget.dart';
-import '../widgets/stat_card_widget.dart';
 import '../widgets/quick_card_widget.dart';
 import '../widgets/profile_card_widget.dart';
+import '../widgets/custom_dashboard_card.dart';
 
 final pointsProvider = StateProvider<int>((ref) => 0);
 
@@ -58,27 +58,35 @@ class DashboardScreen extends ConsumerWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   mainAxisSpacing: 12,
                   crossAxisSpacing: 12,
-                  children: const [
-                    StatCardWidget(
-                        title: "Streak",
-                        value: "7 days",
-                        icon: Icons.local_fire_department,
-                        color: Colors.red),
-                    StatCardWidget(
-                        title: "Time Today",
-                        value: "25 min",
-                        icon: Icons.access_time,
-                        color: Colors.blue),
-                    StatCardWidget(
-                        title: "Goals",
-                        value: "3/5",
-                        icon: Icons.flag,
-                        color: Colors.yellow),
-                    StatCardWidget(
-                        title: "Awards",
-                        value: "12",
-                        icon: Icons.emoji_events,
-                        color: Colors.orange),
+                  children: [
+                    CustomDashboardCard(
+                      title: "Streak",
+                      value: "7 days",
+                      icon: Icons.local_fire_department,
+                      color: Colors.red,
+                      onPressed: () {},
+                    ),
+                    CustomDashboardCard(
+                      title: "Time Today",
+                      value: "25 min",
+                      icon: Icons.access_time,
+                      color: Colors.blue,
+                      onPressed: () {},
+                    ),
+                    CustomDashboardCard(
+                      title: "Goals",
+                      value: "3/5",
+                      icon: Icons.flag,
+                      color: Colors.yellow,
+                      onPressed: () {},
+                    ),
+                    CustomDashboardCard(
+                      title: "Awards",
+                      value: "12",
+                      icon: Icons.emoji_events,
+                      color: Colors.orange,
+                      onPressed: () {},
+                    ),
                   ],
                 ),
               ),

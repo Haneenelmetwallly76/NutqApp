@@ -127,7 +127,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen>
       backgroundColor: const Color(0xFFF5F7FA),
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(gradient: gradient),
+          decoration: const BoxDecoration(gradient: gradient),
           width: double.infinity,
           child: Stack(
             children: [

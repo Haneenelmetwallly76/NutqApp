@@ -17,6 +17,8 @@ dependencies:
   permission_handler: ^11.3.0
   path_provider: ^2.1.0
   camera: ^0.10.5
+  web_socket_channel: ^3.0.0
+  flutter_dotenv: ^5.0.1
 
 
 dev_dependencies:
@@ -40,3 +42,4 @@ flutter:
     - assets/model_unquant.tflite
     - assets/labels.txt
     - assets/images/app_logo.png
+    - .env

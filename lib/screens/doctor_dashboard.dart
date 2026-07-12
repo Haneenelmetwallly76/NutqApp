@@ -55,7 +55,7 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Doctor Dashboard',
                     style: TextStyle(
                       fontSize: 26,
@@ -64,7 +64,7 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.settings, color: primaryColor),
+                    icon: const Icon(Icons.settings, color: primaryColor),
                     onPressed: () {
                       Navigator.push(
                         context,
@@ -92,7 +92,7 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
               const SizedBox(height: 32),
 
               // This Week's Activity
-              Text(
+              const Text(
                 "This Week's Activity",
                 style: TextStyle(
                   fontSize: 18,
@@ -176,7 +176,7 @@ class _DoctorDashboardState extends ConsumerState<DoctorDashboard> {
               const SizedBox(height: 32),
 
               // Recent Activity (dummy examples)
-              Text(
+              const Text(
                 'Recent Activity',
                 style: TextStyle(
                   fontSize: 18,

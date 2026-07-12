@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'theme.dart';
 
@@ -16,7 +17,9 @@ import 'screens/sign_up_doctor.dart';
 import 'screens/daily_learning_screen.dart';
 import 'screens/parent_dashboard.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
   runApp(const ProviderScope(child: App()));
 }
 
@@ -43,8 +46,8 @@ class App extends StatelessWidget {
         '/progress': (_) => const ProgressTrackingScreen(),
         '/feedback': (_) => const FeedbackScreen(),
         '/sign_in': (context) => const SignInScreen(),
-        '/sign_up_child': (_) => SignUpChild(),
-        '/sign_up_parent': (_) => SignUpParent(),
+        '/sign_up_child': (_) => const SignUpChild(),
+        '/sign_up_parent': (_) => const SignUpParent(),
         '/sign_up_doctor': (_) => const SignUpDoctor(),
         '/daily-learning': (_) => const DailyLearningScreen(),
         '/parent': (context) => const ParentDashboard(),

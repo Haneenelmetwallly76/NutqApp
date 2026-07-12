@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:web_socket_channel/io.dart';
 
 class SignLanguageScreen extends StatefulWidget {
   const SignLanguageScreen({super.key});
@@ -17,21 +18,19 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
   late CameraController _cameraController;
   late List<CameraDescription> _cameras;
   bool _isCameraInitialized = false;
-  bool _isCameraRunning = false;
 
-  // Model & Labels
-  late List<String> _labels;
-  bool _modelLoaded = false;
+  // WebSocket
+  IOWebSocketChannel? _channel;
+  bool _isConnected = false;
+  String _wsServerAddress = '192.168.1.X:8765'; // Change to your PC IP
 
   // Detection Results
   String _detectedSign = 'جاري المسح...';
   double _confidence = 0.0;
-  String _debugLog = 'Initializing...';
-  Timer? _inferenceTimer;
+  String _debugLog = 'Initializing camera...';
 
-  // Constants
-  static const double _confidenceThreshold = 0.5;
-  static const String _emptyLabel = 'فارغ';
+  // Stream subscription
+  StreamSubscription? _wsSubscription;
 
   @override
   void initState() {
@@ -42,24 +41,10 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
 
   Future<void> _initializeAsync() async {
     try {
-      await _loadLabels();
       await _initializeCamera();
-      await _loadModel();
+      _updateDebugLog('Camera initialized. Tap "Connect" to connect to gesture server.');
     } catch (e) {
       _updateDebugLog('Initialization error: $e');
-    }
-  }
-
-  Future<void> _loadLabels() async {
-    try {
-      final labelData =
-          await DefaultAssetBundle.of(context).loadString('assets/labels.txt');
-      _labels = labelData.split('\n').where((label) => label.isNotEmpty).toList();
-      debugPrint('[SignLanguage] Labels: $_labels');
-      _updateDebugLog('Labels loaded: ${_labels.length} classes');
-    } catch (e) {
-      debugPrint('[SignLanguage] Error loading labels: $e');
-      _updateDebugLog('Error loading labels: $e');
     }
   }
 
@@ -83,7 +68,7 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
         orElse: () => _cameras.first,
       );
 
-      debugPrint('[SignLanguage] Found camera: ${frontCamera.name} (${frontCamera.lensDirection})');
+      debugPrint('[SignLanguage] Found camera: ${frontCamera.name}');
       _updateDebugLog('Camera found: ${frontCamera.name}');
 
       _cameraController = CameraController(
@@ -95,7 +80,6 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
       await _cameraController.initialize();
       _isCameraInitialized = true;
       debugPrint('[SignLanguage] Camera initialized');
-      _updateDebugLog('Camera initialized successfully');
 
       if (mounted) {
         setState(() {});
@@ -106,93 +90,90 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
     }
   }
 
-  Future<void> _loadModel() async {
+  void _connectToWebSocket(String serverAddress) {
+    if (_isConnected) {
+      _disconnectWebSocket();
+      return;
+    }
+
     try {
-      debugPrint('[SignLanguage] Loading model from assets/model_unquant.tflite');
-      _updateDebugLog('Model loaded successfully (ready for inference)');
+      _updateDebugLog('Connecting to ws://$serverAddress...');
       
-      _modelLoaded = true;
-      debugPrint('[SignLanguage] Model ready for inference');
+      _channel = IOWebSocketChannel.connect(
+        Uri.parse('ws://$serverAddress'),
+        pingInterval: const Duration(seconds: 10),
+      );
+
+      _wsSubscription = _channel!.stream.listen(
+        (message) {
+          debugPrint('[SignLanguage] Received: $message');
+          _onWebSocketMessage(message);
+        },
+        onError: (error) {
+          debugPrint('[SignLanguage] WebSocket error: $error');
+          _updateDebugLog('Connection error: $error');
+          _isConnected = false;
+          if (mounted) {
+            setState(() {});
+          }
+        },
+        onDone: () {
+          debugPrint('[SignLanguage] WebSocket closed');
+          _updateDebugLog('Connection closed');
+          _isConnected = false;
+          if (mounted) {
+            setState(() {});
+          }
+        },
+      );
+
+      _isConnected = true;
+      _updateDebugLog('Connected! Listening for gestures...');
+      debugPrint('[SignLanguage] Connected to gesture server at ws://$serverAddress');
+
+      if (mounted) {
+        setState(() {
+          _wsServerAddress = serverAddress;
+        });
+      }
+    } catch (e) {
+      debugPrint('[SignLanguage] Connection error: $e');
+      _updateDebugLog('Failed to connect: $e');
+    }
+  }
+
+  void _disconnectWebSocket() {
+    try {
+      _wsSubscription?.cancel();
+      _channel?.sink.close();
+      _isConnected = false;
+      _updateDebugLog('Disconnected from gesture server');
+      debugPrint('[SignLanguage] Disconnected');
 
       if (mounted) {
         setState(() {});
       }
     } catch (e) {
-      debugPrint('[SignLanguage] Model loading error: $e');
-      _updateDebugLog('Model error: $e');
+      debugPrint('[SignLanguage] Disconnect error: $e');
     }
   }
 
-  void _startFrameProcessing() {
-    if (!_isCameraRunning || !_modelLoaded || !_isCameraInitialized) return;
-
-    // Simulate inference at 10 FPS for realistic testing
-    _inferenceTimer = Timer.periodic(const Duration(milliseconds: 100), (_) {
-      if (!_isCameraRunning || !mounted) return;
-
-      _runSimulatedInference();
-    });
-
-    _updateDebugLog('Frame processing started');
-    debugPrint('[SignLanguage] Frame processing started');
-  }
-
-  void _runSimulatedInference() {
+  void _onWebSocketMessage(dynamic message) {
     try {
-      // Generate realistic predictions
-      // In production, this would use actual TFLite model inference
-      final random = Random();
-      
-      // 70% chance of detecting something
-      if (random.nextDouble() > 0.3) {
-        final randomIndex = random.nextInt(_labels.length);
-        final label = _labels[randomIndex];
-        final confidence = 0.5 + (random.nextDouble() * 0.5); // 0.5-1.0
+      final data = jsonDecode(message.toString());
+      final label = data['label'] as String? ?? 'Unknown';
+      final confidence = (data['confidence'] as num?)?.toDouble() ?? 0.0;
 
-        debugPrint('[SignLanguage] Simulated prediction: $label ($confidence)');
-
-        // Filter results
-        if (label == _emptyLabel || confidence < _confidenceThreshold) {
-          setState(() {
-            _detectedSign = 'جاري المسح...';
-            _confidence = 0.0;
-          });
-        } else {
-          setState(() {
-            _detectedSign = label;
-            _confidence = confidence;
-          });
-        }
-      } else {
-        // 30% chance of no clear detection
-        setState(() {
-          _detectedSign = 'جاري المسح...';
-          _confidence = 0.0;
-        });
-      }
-    } catch (e) {
-      debugPrint('[SignLanguage] Inference error: $e');
-    }
-  }
-
-  void _stopFrameProcessing() async {
-    if (!_isCameraRunning) return;
-
-    try {
-      _inferenceTimer?.cancel();
-      _inferenceTimer = null;
-      _isCameraRunning = false;
-      _updateDebugLog('Frame processing stopped');
-      debugPrint('[SignLanguage] Frame processing stopped');
+      debugPrint('[SignLanguage] Label: $label, Confidence: $confidence');
 
       if (mounted) {
         setState(() {
-          _detectedSign = 'جاري المسح...';
-          _confidence = 0.0;
+          _detectedSign = label;
+          _confidence = confidence;
         });
       }
     } catch (e) {
-      debugPrint('[SignLanguage] Error stopping frame processing: $e');
+      debugPrint('[SignLanguage] Parse error: $e');
     }
   }
 
@@ -205,32 +186,15 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
     debugPrint('[SignLanguage] $message');
   }
 
-  void _toggleCamera() {
-    if (_isCameraRunning) {
-      _stopFrameProcessing();
-      setState(() {
-        _isCameraRunning = false;
-      });
-    } else {
-      _isCameraRunning = true;
-      _startFrameProcessing();
-      setState(() {
-        _isCameraRunning = true;
-      });
-      _updateDebugLog('Camera toggled: ON');
-      debugPrint('[SignLanguage] Camera toggle: ON');
-    }
-  }
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (!_isCameraInitialized) return;
 
     if (state == AppLifecycleState.paused) {
-      _stopFrameProcessing();
+      _disconnectWebSocket();
     } else if (state == AppLifecycleState.resumed) {
-      if (_isCameraRunning) {
-        _startFrameProcessing();
+      if (_isConnected) {
+        _connectToWebSocket(_wsServerAddress);
       }
     }
   }
@@ -238,10 +202,40 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    _inferenceTimer?.cancel();
-    _stopFrameProcessing();
+    _disconnectWebSocket();
     _cameraController.dispose();
     super.dispose();
+  }
+
+  void _showServerAddressDialog() {
+    final controller = TextEditingController(text: _wsServerAddress);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Gesture Server Address', textDirection: TextDirection.rtl),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(
+            hintText: '192.168.1.X:8765',
+            labelText: 'ws://server:port',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _connectToWebSocket(controller.text);
+            },
+            child: const Text('Connect'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -268,25 +262,23 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
                     child: Stack(
                       children: [
                         CameraPreview(_cameraController),
-                        // Status indicator
+                        // Connection status indicator
                         Positioned(
                           top: 12,
                           right: 12,
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 500),
-                            width: 16,
-                            height: 16,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: _isCameraRunning ? Colors.green : Colors.red,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                if (_isCameraRunning)
-                                  BoxShadow(
-                                    color: Colors.green.withValues(alpha: 0.6),
-                                    blurRadius: 8,
-                                    spreadRadius: 2,
-                                  ),
-                              ],
+                              color: _isConnected ? Colors.green : Colors.red,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              _isConnected ? '🟢 Connected' : '🔴 Disconnected',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
@@ -355,18 +347,20 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
               ),
             ),
             const SizedBox(height: 24),
-            // Camera Toggle Button
+            // Connection Button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
               child: ElevatedButton.icon(
-                onPressed: _toggleCamera,
-                icon: Icon(_isCameraRunning ? Icons.stop_circle : Icons.play_circle),
+                onPressed: _showServerAddressDialog,
+                icon: Icon(_isConnected ? Icons.cloud_off : Icons.cloud),
                 label: Text(
-                  _isCameraRunning ? 'إيقاف الكاميرا' : 'تشغيل الكاميرا',
+                  _isConnected
+                      ? 'قطع الاتصال (Disconnect)'
+                      : 'الاتصال بالخادم (Connect)',
                   textDirection: TextDirection.rtl,
                 ),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: _isCameraRunning ? Colors.red : Colors.green,
+                  backgroundColor: _isConnected ? Colors.red : Colors.green,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -400,6 +394,15 @@ class _SignLanguageScreenState extends State<SignLanguageScreen>
                         fontSize: 11,
                         color: Colors.grey,
                         fontFamily: 'Courier',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Server IP: Change "192.168.1.X" to your PC IP.',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.blueAccent,
+                        fontStyle: FontStyle.italic,
                       ),
                     ),
                   ],
