@@ -1,4 +1,4 @@
-# 🎯 NutqApp - Kids Learning & Speech Therapy
+# 🎯 NutqApp - AI-Powered Speech Therapy & Sign Language
 
 AI-powered speech therapy and sign language learning platform for children.
 
@@ -11,37 +11,31 @@ AI-powered speech therapy and sign language learning platform for children.
 ![Login](screenshots/loginn.png) | ![Dashboard](screenshots/dashboard.png) | ![Speech](screenshots/speach.png) | ![Reports](screenshots/reports.png)
 ---|---|---|---
 
-## ✨ Features
+## ✨ Key Features
 
-- 🎤 **Speech Therapy** - Real-time Arabic speech recognition with instant feedback
-- 🖐️ **Sign Language** - AI gesture detection using TensorFlow Lite
-- 📊 **Progress Tracking** - Analytics and achievement tracking
-- 👥 **Multi-Role** - Child, parent, and doctor dashboards
+- 🎤 **Speech Therapy** - Real-time Arabic speech recognition with instant feedback using **Whisper API**.
+- 🖐️ **Sign Language** - Real-time AI gesture detection using **TensorFlow Lite** and a **Python WebSocket Server**.
+- 📊 **Progress Tracking** - Analytics and achievement tracking via centralized Riverpod state.
+- 👥 **Multi-Role** - Dedicated Child, parent, and doctor dashboards.
 
-## 🛠️ Tech Stack
+## 🛠️ Tech Stack & Architecture
 
-Flutter 3.3.0 • Dart 3.3.0 • Riverpod • TensorFlow Lite • Speech-to-Text
+* **Frontend:** Flutter 3.3.0 & Dart 3.3.0
+* **State Management:** Riverpod (Ensures clean, reactive state sharing across dashboards without UI stutter).
+* **AI & Backend Integrations:**
+  * **Speech-to-Text:** Whisper API via multipart HTTP requests.
+  * **Sign Language Recognition:** Custom Python WebSocket Server + TensorFlow Lite (`model_unquant.tflite`).
+
+## 🔄 System Architecture & Data Flow
+
+* **Sign Language Module:** Camera initializes -> Frames sent via WebSocket to Python server -> Inference JSON returned -> Riverpod updates UI state with confidence score.
+* **Speech Therapy Module:** Mic records audio -> Saved to temp storage -> Multipart HTTP request to Whisper API -> Parsed text updates the screen.
 
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/Haneenelmetwallly76/NutqApp.git
+git clone [https://github.com/Haneenelmetwallly76/NutqApp.git](https://github.com/Haneenelmetwallly76/NutqApp.git)
 cd NutqApp
 flutter pub get
+# Note: Create a .env file and add your WHISPER_API_KEY before running
 flutter run
-```
-
-See [pubspec.yaml](pubspec.yaml) for dependencies and [SIGN_LANGUAGE_IMPLEMENTATION.md](SIGN_LANGUAGE_IMPLEMENTATION.md) for detailed docs.
-
-## 📝 License
-
-MIT License
-
----
-
-**Author**: Haneen Elmetwalley [@Haneenelmetwallly76](https://github.com/Haneenelmetwallly76)  
-**Issues**: [Report Bug](https://github.com/Haneenelmetwallly76/NutqApp/issues)
-
----
-
-**Last Updated**: January 2026 | **Status**: ✅ Production Ready
