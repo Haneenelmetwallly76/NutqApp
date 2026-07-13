@@ -31,11 +31,11 @@ class AchievementCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: isUnlocked
-              ? Border.all(color: iconColor.withOpacity(0.3), width: 2)
+              ? Border.all(color: iconColor.withValues(alpha: 0.3), width: 2)
               : Border.all(color: Colors.grey.withOpacity(0.2), width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),

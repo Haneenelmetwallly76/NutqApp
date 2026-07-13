@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_fonts: ^6.2.1
   google_sign_in: ^6.1.6
   flutter_riverpod: ^2.3.6
   http: ^1.2.0
