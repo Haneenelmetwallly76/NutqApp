@@ -34,7 +34,7 @@ AI-powered speech therapy and sign language learning platform for children.
 ## 🚀 Quick Start
 
 ```bash
-git clone [https://github.com/Haneenelmetwallly76/NutqApp.git](https://github.com/Haneenelmetwallly76/NutqApp.git)
+git clone https://github.com/Haneenelmetwallly76/NutqApp.git
 cd NutqApp
 flutter pub get
 # Note: Create a .env file and add your WHISPER_API_KEY before running
